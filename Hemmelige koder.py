@@ -7,7 +7,8 @@ def encode_letter(letter, secret):
     new_pos = (pos + secret)
     if new_pos >= 29:
         new_pos -= 29
-    return alphabet[new_pos]
+    print(alphabet[new_pos])
+
 
 
 # Decodes a single letter
@@ -26,7 +27,7 @@ def encode_msg(message, secret):
         if character in alphabet:
             encrypted_message += encode_letter(character, secret)
         else:
-            # Cheks for whitespace
+            # Checks for whitespace
             encrypted_message += character
     print("Decrypted message -", encrypted_message)
 
@@ -38,14 +39,15 @@ def decode_msg(message, secret):
         if character in alphabet:
             decrypted_message += decode_letter(character, secret)
         else:
-            # Cheks for whitespace
+            # Checks for whitespace
             decrypted_message += character
     print("Encrypted message -", decrypted_message)
 
 
 # Decodes an encrypted message when the secret is unknown - Therefore returns many decoded strings
-def decode_unknown(message, secret):
+def decode_unknown_msg(message, secret):
     for secret in range(secret):
         decode_msg(message, secret)
         secret -= 1
 
+encode_letter("h", 2)
