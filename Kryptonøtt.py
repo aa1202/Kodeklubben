@@ -1,8 +1,10 @@
+# TODO clean code up and edit it so it's easier to read
+
 import operator
 import itertools
 
 operators = {"encode": operator.add, "decode": operator.sub}
-alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890'
+alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890"'
 alphabet_length = len(alphabet)
 
 # DESCRIPTION either encodes or decodes a message depending of user input. The key makes each message encoded unique
@@ -40,10 +42,12 @@ def decode_with_known_key_length(secret_msg, key_length ):
     for i in range(1):
         temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=key_length)
 
+
         for i in temp_key:
             temp_decode = vigenere_encryption(secret_msg, i, "decode")
+
             decode_tries += 1
-            print(temp_decode)
+
             if temp_decode == message:
                 print("-----------------------------------")
                 print("Encrypted word -", secret_msg)
@@ -86,5 +90,4 @@ def console_input():
 
     vigenere_encryption(message, keyword, operator)
 
-secret = vigenere_encryption("Jeg liker kake veldig godt. På den annen side er kake usunt", "kake", "encode")
-decode_with_known_key_length(secret, 4)
+decode_with_known_key_length("""q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a""", 6)
