@@ -1,12 +1,14 @@
-import operator, itertools
-operators = {"encode": operator.add, "decode": operator.sub}
+import operator
+import itertools
 
+operators = {"encode": operator.add, "decode": operator.sub}
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890'
 alphabet_length = len(alphabet)
 
-message = "hei på deg"
-
+# DESCRIPTION either encodes or decodes a message depending of user input. The key makes each message encoded unique
 def vigenere_encryption(msg, key, operator):
+
+
     encoded_word = ''
 
     key_length = len(key)
@@ -28,20 +30,20 @@ def vigenere_encryption(msg, key, operator):
         encoded = operator_function(msgInt, encInt) % alphabet_length
         # Appends this to the final encoded word
         encoded_word += alphabet[encoded]
+
     return encoded_word
 
-def decode_with_unknown_key(secret_msg):
-    '''
-    Decodes secret message with a known length of decryption key
-    '''
+# DESCRIPTION decodes when you know the length of the key. Generates random keys using itertools.product()
+def decode_with_known_key_length(secret_msg, key_length ):
+    message = "Jeg liker kake veldig godt. På den annen side er kake usunt"
     decode_tries = 0
     for i in range(1):
-        temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=4)
+        temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=key_length)
 
         for i in temp_key:
             temp_decode = vigenere_encryption(secret_msg, i, "decode")
             decode_tries += 1
-
+            print(temp_decode)
             if temp_decode == message:
                 print("-----------------------------------")
                 print("Encrypted word -", secret_msg)
@@ -51,6 +53,27 @@ def decode_with_unknown_key(secret_msg):
             else:
                 pass
 
+# DESCRIPTION decodes a secret message with keywords from key_words.txt
+def decode_using_dict(secret_msg):
+    # FIXME Seems like if the secret_msg (encoded word) is longer than the keyword, the code wont work.
+    message = "Jeg liker kake veldig godt. På den annen side er kake usunt"
+    file = open("key_words.txt")
+    for i in range(1):
+
+        for line in file:
+            temp_decode = vigenere_encryption(secret_msg, line, "decode")
+            print(line, temp_decode)
+
+            if temp_decode == message:
+                print("-----------------------------------")
+                print("Encrypted word -", secret_msg)
+                print("Found the word", temp_decode, "with key:", line)
+                print("-----------------------------------")
+                break
+            else:
+                pass
+
+# DESCRIPTION console user input function to encode or decode a message
 def console_input():
     message = str(input("Enter the string you want encrypted: "))
     keyword = str(input("Enter a desired keyword: "))
@@ -63,6 +86,5 @@ def console_input():
 
     vigenere_encryption(message, keyword, operator)
 
-decode_with_unknown_key(vigenere_encryption(message, "kake", "encode"))
-
-
+secret = vigenere_encryption("Jeg liker kake veldig godt. På den annen side er kake usunt", "kake", "encode")
+decode_with_known_key_length(secret, 4)
