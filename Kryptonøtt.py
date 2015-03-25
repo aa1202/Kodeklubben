@@ -1,9 +1,17 @@
+import operator
+operators = {"encode": operator.add, "decode": operator.sub}
+
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890'
 alphabet_length = len(alphabet)
 
-def vigenere_encode(msg, key):
+def vigenere_encryption(msg, key, operator):
     encoded_word = ''
+
     key_length = len(key)
+    encode_decode = operator
+    operator_function = operators[encode_decode]
+
+    print(encode_decode)
 
     for i, char in enumerate(msg):
         # Finds the position of the char
@@ -16,32 +24,22 @@ def vigenere_encode(msg, key):
         encInt = alphabet.find(key[i % key_length])
         if msgInt == -1 or encInt == -1:
             return ''
-        #Returns the first encrypted letter
-        encoded = (msgInt + encInt) % alphabet_length
-        #Appends this to the final encoded word
+        # Returns the first encrypted letter
+        encoded = operator_function(msgInt, encInt) % alphabet_length
+        # Appends this to the final encoded word
         encoded_word += alphabet[encoded]
+
+    print(encoded_word)
     return encoded_word
 
 
-def vigenere_decode(coded_msg, key):
-    decoded_word = ''
-    key_length = len(key)
 
-    for i, char in enumerate(coded_msg):
-        # Finds the position of the char
-        msgInt = alphabet.find(char)
-        encInt = alphabet.find(key[i % key_length])
-        if msgInt == -1 or encInt == -1:
-            return ''
-        #Returns the first encrypted letter
-        encoded = (msgInt - encInt) % alphabet_length
-        decoded_word += alphabet[encoded]
-    return decoded_word
+# keyword = "bil"
 
-keyword = 'bil'
 
-print(vigenere_encode("musematte", keyword))
-print(vigenere_decode("5JK_B3BI7", keyword))
+# print(vigenere_encryption("kodeklubben", keyword, "encode"))
+# print("-----------")
+# print(vigenere_encryption("3D6_0DC14_C", keyword, "decode"))
 
 
 '''
@@ -53,6 +51,7 @@ Finally, you would find the length of the alphabet, which in this case is 78
 EXAMPLE:
 In this case, the encrypted word is 5IJ_A3AH7. We take the first letter, which means 5, and find its index in the
 alphabet list. We use the function print(alphabet.find("5")) which returns 71 as the index of the number 5.
+
 Then, in order to find y we have to find the index of the first letter in b in the alphabet list. We use the function
 print(alphabet.find("b")) which gives us 30. Now we can put these into the formula (71 - 30) % 78. This gives us 41,
 which we use to find the letter corresponding using print(alphabet[41]). This gives us an 'm', which is the first letter
@@ -68,5 +67,16 @@ At this point we've found 'mu', which is the first letters in message. If you wa
 can do so with this method
 '''
 
+def console_input():
+    message = str(input("Enter the string you want encrypted: "))
+    keyword = str(input("Enter a desired keyword: "))
+    while True:
+        operator = str(input("Do you want to decode or encode the word? "))
+        if operator != "encode" and operator != "decode":
+            print("Invalid input - Should either be 'encode' or 'decode'")
+        else:
+            break
 
+    vigenere_encryption(message, keyword, operator)
+console_input()
 
