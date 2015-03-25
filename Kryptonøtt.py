@@ -1,4 +1,4 @@
-import operator
+import operator, itertools
 operators = {"encode": operator.add, "decode": operator.sub}
 
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890'
@@ -10,8 +10,6 @@ def vigenere_encryption(msg, key, operator):
     key_length = len(key)
     encode_decode = operator
     operator_function = operators[encode_decode]
-
-    print(encode_decode)
 
     for i, char in enumerate(msg):
         # Finds the position of the char
@@ -28,19 +26,39 @@ def vigenere_encryption(msg, key, operator):
         encoded = operator_function(msgInt, encInt) % alphabet_length
         # Appends this to the final encoded word
         encoded_word += alphabet[encoded]
-
-    print(encoded_word)
     return encoded_word
 
+def decode_with_unknown_key(secret_msg):
+    '''
+    Decodes with a known length of decryption key
+    '''
+    decode_tries = 0
+    for i in range(1):
+        temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=4)
 
+        for i in temp_key:
+            temp_decode = vigenere_encryption(secret_msg, i, "decode")
+            decode_tries += 1
 
-# keyword = "bil"
+            if temp_decode == "kodeklubben":
+                print("Found the word", temp_decode, "with key:", ''.join(i), "after", decode_tries, "tries")
+                break
+            else:
+                pass
 
+def console_input():
+    message = str(input("Enter the string you want encrypted: "))
+    keyword = str(input("Enter a desired keyword: "))
+    while True:
+        operator = str(input("Do you want to decode or encode the word? "))
+        if operator != "encode" and operator != "decode":
+            print("Invalid input - Should either be 'encode' or 'decode'")
+        else:
+            break
 
-# print(vigenere_encryption("kodeklubben", keyword, "encode"))
-# print("-----------")
-# print(vigenere_encryption("3D6_0DC14_C", keyword, "decode"))
+    vigenere_encryption(message, keyword, operator)
 
+decode_with_unknown_key(vigenere_encryption("kodeklubben", "kake", "encode"))
 
 '''
 If you want to decode the word manually, you would use the formula (x - y) % len(alphabet)
@@ -66,17 +84,3 @@ print(alphabet[49]) = u
 At this point we've found 'mu', which is the first letters in message. If you want to find the whole word manually, you
 can do so with this method
 '''
-
-def console_input():
-    message = str(input("Enter the string you want encrypted: "))
-    keyword = str(input("Enter a desired keyword: "))
-    while True:
-        operator = str(input("Do you want to decode or encode the word? "))
-        if operator != "encode" and operator != "decode":
-            print("Invalid input - Should either be 'encode' or 'decode'")
-        else:
-            break
-
-    vigenere_encryption(message, keyword, operator)
-console_input()
-
