@@ -15,6 +15,7 @@ def vigenere_encryption(msg, key, operator):
     encode_decode = operator
     operator_function = operators[encode_decode]
 
+
     for i, char in enumerate(msg):
         # Finds the position of the char
         msgint = alphabet.find(char)
