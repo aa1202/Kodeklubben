@@ -2,6 +2,7 @@
 
 import operator
 import itertools
+import sys
 
 operators = {"encode": operator.add, "decode": operator.sub}
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890"'
@@ -35,23 +36,58 @@ def vigenere_encryption(msg, key, operator):
 
 
 # DESCRIPTION decodes when you know the length of the key. Generates random keys using itertools.product()
-def decode_with_known_key_length(secret_msg, key_length):
-    decode_tries = 0
-    temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=key_length)
+def decode_with_unknown_key_but_known_msg(secret_msg, max_key_len):
+    for keyLen in range(max_key_len):
+        if keyLen != 0:
+            print("Trying to decrypt with key length", keyLen)
+            temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=keyLen)
+            for i in temp_key:
+                temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
 
-    for i in temp_key:
-        temp_decode = vigenere_encryption(secret_msg, i, "decode")
-        decode_tries += 1
-
-        if temp_decode == message:
-            print("-----------------------------------")
-            print("Encrypted word -", secret_msg)
-            print("Found the word", temp_decode, "with key:", ''.join(i), "after", decode_tries, "tries")
-            print("-----------------------------------")
-            break
+                if temporarily_encrypted_message == message:
+                    print("-----------------------------------")
+                    print("Encrypted word -", secret_msg)
+                    print("Found the word", temporarily_encrypted_message, "with key:", ''.join(i))
+                    print("-----------------------------------")
+                    sys.exit()
+                else:
+                    #Means that the temporarily_encrypted_message did not match the message
+                    pass
+            else:
+                pass
         else:
             pass
 
+def decode_UNKNOWNMESSAGE(secret_msg, max_key_length):
+
+    white_space_count = 0
+    connected_letters_count = 0
+    global valid_decryptions
+    valid_decryptions = []
+
+    for keyLen in range(max_key_length):
+        if keyLen != 0:
+            print("Trying to decrypt with key length", keyLen)
+            temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=keyLen)
+            for i in temp_key:
+                temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
+
+                if " " in temporarily_encrypted_message:
+                    white_space_count += 1
+                    valid_decryptions.append(temporarily_encrypted_message)
+                else:
+                    connected_letters_count += 1
+
+            else:
+                pass
+        else:
+            pass
+    print("Number of whitespaces:", white_space_count)
+    print("Number of connected letters:", connected_letters_count)
+
+
+    # for elem in valid_decryptions:
+    #     print(elem)
 
 # DESCRIPTION decodes a secret message with keywords from key_words.txt
 def decode_using_dict(secret_msg):
@@ -85,13 +121,15 @@ def console_input():
 
     vigenere_encryption(message, keyword, operator)
 
-
 '''
 Define variables and fucntions here, for simplicity
 '''
 
-message = "K"
-key = "aa"
 
-secret = vigenere_encryption(message, key, "encode")
-decode_using_dict(message)
+
+message = ""
+key = "kr"
+secret = """q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a"""
+
+
+decode_UNKNOWNMESSAGE(secret, 6)
