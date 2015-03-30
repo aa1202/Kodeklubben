@@ -182,3 +182,6 @@ message = "hei hvordan går det"
 key = "yolo"
 #secret = vigenere_encryption(message, key, "encode")
 decodeKnownKeyLength(secret, 6, 13)
+
+
+
