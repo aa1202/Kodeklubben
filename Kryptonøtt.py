@@ -156,6 +156,8 @@ def decode_using_dict(secret_msg):
             pass
 
 
+
+
 def console_input():
     '''
     Console input for encoding a message
