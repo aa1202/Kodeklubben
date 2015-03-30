@@ -8,8 +8,11 @@ operators = {"encode": operator.add, "decode": operator.sub}
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890"'
 alphabet_length = len(alphabet)
 
-# DESCRIPTION  either encodes or decodes a message depending of user input. The key makes each message encoded unique
+
 def vigenere_encryption(msg, key, operator):
+    '''
+    Either encodes or decodes a message depending of user input. The key makes each message encoded unique
+    '''
     encoded_word = ''
 
     key_length = len(key)
@@ -35,11 +38,14 @@ def vigenere_encryption(msg, key, operator):
     return encoded_word
 
 
-# DESCRIPTION decodes when you know the length of the key. Generates random keys using itertools.product()
-def decode_with_unknown_key_but_known_msg(secret_msg, max_key_len):
+
+def decodeWithKnownMessage(secret_msg, max_key_len):
+    '''
+    Decodes when you know the length of the key and known length of message.
+    '''
+
     for keyLen in range(max_key_len):
         if keyLen != 0:
-            print("Trying to decrypt with key length", keyLen)
             temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=keyLen)
             for i in temp_key:
                 temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
@@ -58,21 +64,29 @@ def decode_with_unknown_key_but_known_msg(secret_msg, max_key_len):
         else:
             pass
 
-def decode_UNKNOWNMESSAGE(secret_msg, max_key_length):
+
+
+def decodeUnknownKey(secret_msg, max_key_length, blank_space):
+    '''
+    Decodes a secret message with not knowing the length of the key or the message it self
+    Limits the outcomes by checking for the number of occurrences of spaces, and stores this in a list for manual
+    checking. For instance, if blank_space is < 3 the list will get very long consisting of sentences with spaces if
+    the key is 5 or more in length. On the other hand, it is important that blank_space doesn't exceed the actual
+    number of spaces in the original sentence.
+    '''
 
     white_space_count = 0
     connected_letters_count = 0
-    global valid_decryptions
     valid_decryptions = []
 
     for keyLen in range(max_key_length):
         if keyLen != 0:
             print("Trying to decrypt with key length", keyLen)
-            temp_key = itertools.product("abcdefghijklmnopqrstuvwxyzæøå", repeat=keyLen)
+            temp_key = itertools.product("abcdefghijklmnoprstuvwy", repeat=keyLen)
             for i in temp_key:
                 temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
 
-                if " " in temporarily_encrypted_message:
+                if temporarily_encrypted_message.count(" ") >= blank_space:
                     white_space_count += 1
                     valid_decryptions.append(temporarily_encrypted_message)
                 else:
@@ -85,12 +99,46 @@ def decode_UNKNOWNMESSAGE(secret_msg, max_key_length):
     print("Number of whitespaces:", white_space_count)
     print("Number of connected letters:", connected_letters_count)
 
+    for element in valid_decryptions:
+        print(element)
 
-    # for elem in valid_decryptions:
-    #     print(elem)
+def decodeKnownKeyLength(secret_msg, key_length, blank_space):
+    '''
+    Decodes a message with known keyword length, and does not require original decoded message.
+    Limits the outcomes by checking for the number of occurrences of spaces, and stores this in a list for manual
+    checking. For instance, if blank_space is < 3 the list will get very long consisting of sentences with spaces if
+    the key is 5 or more in length. On the other hand, it is important that blank_space doesn't exceed the actual
+    number of spaces in the original sentence.
+    '''
 
-# DESCRIPTION decodes a secret message with keywords from key_words.txt
+    white_space_count = 0
+    connected_letters_count = 0
+    valid_decryptions = []
+
+    print("Trying to decrypt with key length", key_length)
+    temp_key = itertools.product("abcdefghijklmnoprstuvwy", repeat=key_length)
+    for i in temp_key:
+        temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
+        if temporarily_encrypted_message.count(" ") >= blank_space:
+            white_space_count += 1
+            valid_decryptions.append(temporarily_encrypted_message)
+        else:
+            connected_letters_count += 1
+    else:
+        pass
+
+    print("Number of whitespaces:", white_space_count)
+    print("Number of connected letters:", connected_letters_count)
+
+    for element in valid_decryptions:
+        print(element)
+
+
+
 def decode_using_dict(secret_msg):
+    '''
+    Decodes a message using a dictionary, and demands the knowing of decoded message in order to check if it is correct
+    '''
     # FIXME Seems like if the secret_msg (encoded word) is longer than the keyword, the code wont work.
     message = "Jeg liker kake veldig godt. På den annen side er kake usunt"
     file = open("key_words.txt")
@@ -108,8 +156,11 @@ def decode_using_dict(secret_msg):
             pass
 
 
-# DESCRIPTION console user input function to encode or decode a message
 def console_input():
+    '''
+    Console input for encoding a message
+    '''
+    # TODO further build upon this function so the user can decode a word
     message = str(input("Enter the string you want encrypted: "))
     keyword = str(input("Enter a desired keyword: "))
     while True:
@@ -121,15 +172,11 @@ def console_input():
 
     vigenere_encryption(message, keyword, operator)
 
-'''
-Define variables and fucntions here, for simplicity
-'''
 
-
-
-message = ""
-key = "kr"
 secret = """q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a"""
+#secret = vigenere_encryption("hvordan går det jeg er iokke glad i kake men kryptering er satans vanskelig", "se", "encode")
 
-
-decode_UNKNOWNMESSAGE(secret, 6)
+message = "hei hvordan går det"
+key = "yolo"
+#secret = vigenere_encryption(message, key, "encode")
+decodeKnownKeyLength(secret, 6, 13)
