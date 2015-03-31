@@ -8,7 +8,6 @@ operators = {"encode": operator.add, "decode": operator.sub}
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890"'
 alphabet_length = len(alphabet)
 
-
 def vigenere_encryption(msg, key, operator):
     '''
     Either encodes or decodes a message depending of user input. The key makes each message encoded unique
@@ -37,8 +36,6 @@ def vigenere_encryption(msg, key, operator):
         encoded_word += alphabet[encoded]
     return encoded_word
 
-
-
 def decodeWithKnownMessage(secret_msg, max_key_len):
     '''
     Decodes when you know the length of the key and known length of message.
@@ -63,8 +60,6 @@ def decodeWithKnownMessage(secret_msg, max_key_len):
                 pass
         else:
             pass
-
-
 
 def decodeUnknownKey(secret_msg, max_key_length, blank_space):
     '''
@@ -156,8 +151,6 @@ def decode_using_dict(secret_msg):
             pass
 
 
-
-
 def console_input():
     '''
     Console input for encoding a message
@@ -176,11 +169,6 @@ def console_input():
 
 
 secret = """q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a"""
-#secret = vigenere_encryption("hvordan går det jeg er iokke glad i kake men kryptering er satans vanskelig", "se", "encode")
-
-message = "hei hvordan går det"
-key = "yolo"
-#secret = vigenere_encryption(message, key, "encode")
 decodeKnownKeyLength(secret, 6, 13)
 
 
