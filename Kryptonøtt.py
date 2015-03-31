@@ -77,11 +77,10 @@ def decodeUnknownKey(secret_msg, max_key_length, blank_space):
     for keyLen in range(max_key_length):
         if keyLen != 0:
             print("Trying to decrypt with key length", keyLen)
-            temp_key = itertools.product("abcdefghijklmnoprstuvwy", repeat=keyLen)
+            temp_key = itertools.product("abcdefghijklmnopqrstuvwxyz", repeat=keyLen)
             for i in temp_key:
                 temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
-
-                if temporarily_encrypted_message.count(" ") >= blank_space:
+                if "kake" in temporarily_encrypted_message:
                     white_space_count += 1
                     valid_decryptions.append(temporarily_encrypted_message)
                 else:
@@ -111,10 +110,10 @@ def decodeKnownKeyLength(secret_msg, key_length, blank_space):
     valid_decryptions = []
 
     print("Trying to decrypt with key length", key_length)
-    temp_key = itertools.product("abcdefghijklmnoprstuvwy", repeat=key_length)
+    temp_key = itertools.product("abcdefghijklmnopqrstuvwxyz", repeat=key_length)
     for i in temp_key:
         temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
-        if temporarily_encrypted_message.count(" ") >= blank_space:
+        if "trolldeig" in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
             white_space_count += 1
             valid_decryptions.append(temporarily_encrypted_message)
         else:
@@ -168,8 +167,8 @@ def console_input():
     vigenere_encryption(message, keyword, operator)
 
 
-secret = """q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a"""
-decodeKnownKeyLength(secret, 6, 13)
-
-
+#secret = """q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a"""
+message = "I dette forsøket skal vi anrike uran ved å laage trolldeig"
+secret = vigenere_encryption(message, "kake", "encode")
+decodeKnownKeyLength(secret,4,7)
 
