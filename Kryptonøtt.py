@@ -167,7 +167,7 @@ def console_input():
     vigenere_encryption(message, keyword, operator)
 
 
-#secret = """q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a"""
+#secret = 'q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a'
 message = "I dette forsøket skal vi anrike uran ved å laage trolldeig"
 secret = vigenere_encryption(message, "kake", "encode")
 decodeKnownKeyLength(secret,4,7)
