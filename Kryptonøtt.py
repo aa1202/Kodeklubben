@@ -113,9 +113,9 @@ def decodeKnownKeyLength(secret_msg, key_length, blank_space):
     temp_key = itertools.product("abcdefghijklmnopqrstuvwxyz", repeat=key_length)
     for i in temp_key:
         temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
-        if "trolldeig" in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
+        if " programming " in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
             white_space_count += 1
-            valid_decryptions.append(temporarily_encrypted_message)
+            print(temporarily_encrypted_message)
         else:
             connected_letters_count += 1
     else:
@@ -167,8 +167,6 @@ def console_input():
     vigenere_encryption(message, keyword, operator)
 
 
-#secret = 'q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a'
-message = "I dette forsøket skal vi anrike uran ved å laage trolldeig"
-secret = vigenere_encryption(message, "kake", "encode")
-decodeKnownKeyLength(secret,4,7)
+secret = 'q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a'
+decodeKnownKeyLength(secret,6,14)
 
