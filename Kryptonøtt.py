@@ -3,6 +3,7 @@
 import operator
 import itertools
 import sys
+import time
 
 operators = {"encode": operator.add, "decode": operator.sub}
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅabcdefghijklmnopqrstuvwxyzæøå .,?-_;:+1234567890"'
@@ -36,6 +37,7 @@ def vigenere_encryption(msg, key, operator):
         encoded_word += alphabet[encoded]
     return encoded_word
 
+
 def decodeWithKnownMessage(secret_msg, max_key_len):
     '''
     Decodes when you know the length of the key and known length of message.
@@ -60,6 +62,7 @@ def decodeWithKnownMessage(secret_msg, max_key_len):
                 pass
         else:
             pass
+
 
 def decodeUnknownKey(secret_msg, max_key_length, blank_space):
     '''
@@ -96,6 +99,7 @@ def decodeUnknownKey(secret_msg, max_key_length, blank_space):
     for element in valid_decryptions:
         print(element)
 
+
 def decodeKnownKeyLength(secret_msg, key_length, blank_space):
     '''
     Decodes a message with known keyword length, and does not require original decoded message.
@@ -111,22 +115,27 @@ def decodeKnownKeyLength(secret_msg, key_length, blank_space):
 
     print("Trying to decrypt with key length", key_length)
     temp_key = itertools.product("abcdefghijklmnopqrstuvwxyz", repeat=key_length)
+
+    decode_start = time.time()
     for i in temp_key:
         temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
-        if " programming " in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
+        if "programming" in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
             white_space_count += 1
             print(temporarily_encrypted_message)
         else:
             connected_letters_count += 1
+    decode_end = time.time()
+    print("Decoded string with every key in", ((decode_end - decode_start)/60), "minutes")
+
+    print_stats = str(input("Should I print out the stats? (Y/N) ")).lower()
+    if print_stats == "y":
+        print("Number of whitespaces:", white_space_count)
+        print("Number of connected letters:", connected_letters_count)
     else:
         pass
 
-    print("Number of whitespaces:", white_space_count)
-    print("Number of connected letters:", connected_letters_count)
-
     for element in valid_decryptions:
         print(element)
-
 
 
 def decode_using_dict(secret_msg):
@@ -169,4 +178,7 @@ def console_input():
 
 secret = 'q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a'
 decodeKnownKeyLength(secret,6,14)
+
+
+#FOUND THE SECRET! If debugging is the process of removing bugs, then programming must be the process of putting them in.
 
