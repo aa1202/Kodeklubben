@@ -180,4 +180,6 @@ FOUND THE SECRET! If debugging is the process of removing bugs, then programming
 '''
 
 secret = 't-JO:BK0aM,:CQ+ÆAGW?FJGB0KVCGMQ6SQN"GAIDL-PÅ7954E:7Jr,IÆoCF0M"CQdØVlHD53CÅ;IA2DMG5ØHDØVåL:JQØ439LRBBVEMTBÆ6CF0M"CQNAG8G1V6LÅ8FF4Z'
-decode_using_dict(secret, 10)
+decode_using_dict(secret, 12)
+
+#KEYWORDS FROM http://www.mieliestronk.com/wordlist.html
