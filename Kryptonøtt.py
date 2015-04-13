@@ -138,26 +138,24 @@ def decodeKnownKeyLength(secret_msg, key_length, blank_space):
         print(element)
 
 
-def decode_using_dict(secret_msg):
+def decode_using_dict(secret_msg, blank_space):
     '''
     Decodes a message using a dictionary, and demands the knowing of decoded message in order to check if it is correct
     '''
-    # FIXME Seems like if the secret_msg (encoded word) is longer than the keyword, the code wont work.
-    message = "Jeg liker kake veldig godt. På den annen side er kake usunt"
-    file = open("key_words.txt")
+    white_space_count = 0
+    connected_letters_count = 0
+
+
+    file = open("english-proper-names.95")
     for line in file:
-        temp_decode = vigenere_encryption(secret_msg, line, "decode")
-        print(line, temp_decode)
+        temp_decode = vigenere_encryption(secret_msg, line.strip(), "decode")
 
-        if temp_decode == message:
-            print("-----------------------------------")
-            print("Encrypted word -", secret_msg)
-            print("Found the word", temp_decode, "with key:", line)
-            print("-----------------------------------")
-            break
+        if " " in temp_decode and temp_decode.count(" ") >= blank_space:
+            white_space_count += 1
+            print("Encrypted message:", temp_decode)
+            print("Key:", line)
         else:
-            pass
-
+            connected_letters_count += 1
 
 def console_input():
     '''
@@ -175,10 +173,12 @@ def console_input():
 
     vigenere_encryption(message, keyword, operator)
 
-
+'''
 secret = 'q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a'
 decodeKnownKeyLength(secret,6,14)
+FOUND THE SECRET! If debugging is the process of removing bugs, then programming must be the process of putting them in.
+'''
 
-
-#FOUND THE SECRET! If debugging is the process of removing bugs, then programming must be the process of putting them in.
-
+secret = 't-JO:BK0aM,:CQ+ÆAGW?FJGB0KVCGMQ6SQN"GAIDL-PÅ7954E:7Jr,IÆoCF0M"CQdØVlHD53CÅ;IA2DMG5ØHDØVåL:JQØ439LRBBVEMTBÆ6CF0M"CQNAG8G1V6LÅ8FF4Z'
+#secret = vigenere_encryption("I dag skal jeg på kodeklubben klokka 17, og det er viktig at jeg husker pc", "stercoraries", "encode")
+decode_using_dict(secret, 13)
