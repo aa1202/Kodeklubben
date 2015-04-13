@@ -146,7 +146,7 @@ def decode_using_dict(secret_msg, blank_space):
     connected_letters_count = 0
 
 
-    file = open("english-proper-names.95")
+    file = open("key_words.txt")
     for line in file:
         temp_decode = vigenere_encryption(secret_msg, line.strip(), "decode")
 
@@ -180,5 +180,4 @@ FOUND THE SECRET! If debugging is the process of removing bugs, then programming
 '''
 
 secret = 't-JO:BK0aM,:CQ+ÆAGW?FJGB0KVCGMQ6SQN"GAIDL-PÅ7954E:7Jr,IÆoCF0M"CQdØVlHD53CÅ;IA2DMG5ØHDØVåL:JQØ439LRBBVEMTBÆ6CF0M"CQNAG8G1V6LÅ8FF4Z'
-#secret = vigenere_encryption("I dag skal jeg på kodeklubben klokka 17, og det er viktig at jeg husker pc", "stercoraries", "encode")
-decode_using_dict(secret, 13)
+decode_using_dict(secret, 10)
