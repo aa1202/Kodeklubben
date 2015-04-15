@@ -64,7 +64,7 @@ def decodeWithKnownMessage(secret_msg, max_key_len):
             pass
 
 
-def decodeUnknownKey(secret_msg, max_key_length, blank_space):
+def decodeUnknownKey(secret_msg, max_key_length, blank_space, check_for_word=" "):
     '''
     Decodes a secret message with not knowing the length of the key or the message it self
     Limits the outcomes by checking for the number of occurrences of spaces, and stores this in a list for manual
@@ -72,35 +72,33 @@ def decodeUnknownKey(secret_msg, max_key_length, blank_space):
     the key is 5 or more in length. On the other hand, it is important that blank_space doesn't exceed the actual
     number of spaces in the original sentence.
     '''
-
+    # FIXME Seems like if max_key_length is equal to for instance 3, it will only check with keys with len of 1 and 2
     white_space_count = 0
     connected_letters_count = 0
     valid_decryptions = []
 
-    for keyLen in range(max_key_length):
+    for keyLen in range(max_key_length + 1):
         if keyLen != 0:
+
             print("Trying to decrypt with key length", keyLen)
             temp_key = itertools.product("abcdefghijklmnopqrstuvwxyz", repeat=keyLen)
+
             for i in temp_key:
                 temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
-                if "kake" in temporarily_encrypted_message:
-                    white_space_count += 1
-                    valid_decryptions.append(temporarily_encrypted_message)
+                if check_for_word in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
+                    #white_space_count += 1
+                    #valid_decryptions.append(temporarily_encrypted_message)
+                    print("Encrypted message:", temporarily_encrypted_message, "Key: ", i)
+
                 else:
-                    connected_letters_count += 1
+                    pass
+                    #connected_letters_count += 1
 
-            else:
-                pass
-        else:
-            pass
-    print("Number of whitespaces:", white_space_count)
-    print("Number of connected letters:", connected_letters_count)
-
-    for element in valid_decryptions:
-        print(element)
+    #print("Number of whitespaces:", white_space_count)
+    #print("Number of connected letters:", connected_letters_count)
 
 
-def decodeKnownKeyLength(secret_msg, key_length, blank_space):
+def decodeKnownKeyLength(secret_msg, key_length, blank_space, check_for_word= " "):
     '''
     Decodes a message with known keyword length, and does not require original decoded message.
     Limits the outcomes by checking for the number of occurrences of spaces, and stores this in a list for manual
@@ -119,9 +117,11 @@ def decodeKnownKeyLength(secret_msg, key_length, blank_space):
     decode_start = time.time()
     for i in temp_key:
         temporarily_encrypted_message = vigenere_encryption(secret_msg, i, "decode")
-        if "programming" in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
+        if check_for_word in temporarily_encrypted_message and temporarily_encrypted_message.count(" ") >= blank_space:
             white_space_count += 1
-            print(temporarily_encrypted_message)
+            print("Encrypted message:", temporarily_encrypted_message, "Key: ", i)
+
+
         else:
             connected_letters_count += 1
     decode_end = time.time()
@@ -138,24 +138,23 @@ def decodeKnownKeyLength(secret_msg, key_length, blank_space):
         print(element)
 
 
-def decode_using_dict(secret_msg, blank_space):
+def decode_using_dict(secret_msg, blank_space, check_for_word=" "):
     '''
     Decodes a message using a dictionary, and demands the knowing of decoded message in order to check if it is correct
     '''
     white_space_count = 0
     connected_letters_count = 0
 
-
     file = open("key_words.txt")
     for line in file:
         temp_decode = vigenere_encryption(secret_msg, line.strip(), "decode")
-
-        if " " in temp_decode and temp_decode.count(" ") >= blank_space:
+        if check_for_word in temp_decode and temp_decode.count(" ") >= blank_space:
             white_space_count += 1
             print("Encrypted message:", temp_decode)
             print("Key:", line)
         else:
             connected_letters_count += 1
+
 
 def console_input():
     '''
@@ -179,7 +178,15 @@ decodeKnownKeyLength(secret,6,14)
 FOUND THE SECRET! If debugging is the process of removing bugs, then programming must be the process of putting them in.
 '''
 
+'''
 secret = 't-JO:BK0aM,:CQ+ÆAGW?FJGB0KVCGMQ6SQN"GAIDL-PÅ7954E:7Jr,IÆoCF0M"CQdØVlHD53CÅ;IA2DMG5ØHDØVåL:JQØ439LRBBVEMTBÆ6CF0M"CQNAG8G1V6LÅ8FF4Z'
 decode_using_dict(secret, 13)
+Encrypted message: Helpdesk: There is an icon on your computer labeled "My Computer". Double click on it. User: What is your computer doing on mine?
+Key: mastermind
+'''
+
+secret = vigenere_encryption("Husk løpetur klokka 20:00", "hei", "encode")
+decodeUnknownKey(secret, 3, 2, "løpetur")
 
 #KEYWORDS FROM http://www.mieliestronk.com/wordlist.html
+
