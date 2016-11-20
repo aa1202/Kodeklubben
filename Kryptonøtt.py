@@ -63,7 +63,6 @@ def decodeWithKnownMessage(secret_msg, max_key_len):
         else:
             pass
 
-
 def decodeUnknownKey(secret_msg, max_key_length, blank_space, check_for_word=" "):
     '''
     Decodes a secret message with not knowing the length of the key or the message it self
@@ -96,7 +95,6 @@ def decodeUnknownKey(secret_msg, max_key_length, blank_space, check_for_word=" "
 
     #print("Number of whitespaces:", white_space_count)
     #print("Number of connected letters:", connected_letters_count)
-
 
 def decodeKnownKeyLength(secret_msg, key_length, blank_space, check_for_word= " "):
     '''
@@ -137,7 +135,6 @@ def decodeKnownKeyLength(secret_msg, key_length, blank_space, check_for_word= " 
     for element in valid_decryptions:
         print(element)
 
-
 def decode_using_dict(secret_msg, blank_space, check_for_word=" "):
     '''
     Decodes a message using a dictionary, and demands the knowing of decoded message in order to check if it is correct
@@ -155,22 +152,31 @@ def decode_using_dict(secret_msg, blank_space, check_for_word=" "):
         else:
             connected_letters_count += 1
 
-
 def console_input():
     '''
     Console input for encoding a message
     '''
     # TODO further build upon this function so the user can decode a word
-    message = str(input("Enter the string you want encrypted: "))
-    keyword = str(input("Enter a desired keyword: "))
-    while True:
-        operator = str(input("Do you want to decode or encode the word? "))
-        if operator != "encode" and operator != "decode":
-            print("Invalid input - Should either be 'encode' or 'decode'")
-        else:
-            break
+    keepGoing = True
 
-    vigenere_encryption(message, keyword, operator)
+    while keepGoing:
+        message = str(input("Enter the string you want encrypted or decrypted: "))
+        keyword = str(input("Enter a desired keyword: "))
+        while True:
+            operator = str(input("Do you want to decode or encode the word? "))
+            if operator != "encode" and operator != "decode":
+                print("Invalid input - Should either be 'encode' or 'decode'")
+                quit()
+            else:
+                break
+
+        print(vigenere_encryption(message, keyword, operator))
+
+        startOver = str(input("Do you want to encrypt or decrypt a word again (y/n)? "))
+        if startOver == "Y".lower():
+            None
+        elif startOver == "N".lower():
+            break
 
 '''
 secret = 'q0Ø:;AI"E47FRBQNBG4WNB8B4LQN8ERKC88U8GEN?T6LaNBG4GØ""N6K086HB"Ø8CRHW"+LS79Ø""N29QCLN5WNEBS8GENBG4FØ47a'
@@ -186,7 +192,10 @@ Key: mastermind
 '''
 
 secret = vigenere_encryption("Husk løpetur klokka 20:00", "hei", "encode")
-decodeUnknownKey(secret, 3, 2, "løpetur")
+#decodeUnknownKey(secret, 3, 2, "løpetur")
+#console_input()
 
-#KEYWORDS FROM http://www.mieliestronk.com/wordlist.html
+#Keywords gathered from http://www.mieliestronk.com/wordlist.html
 
+
+decodeKnownKeyLength("v64XFMX5+A", 3, 2, "på")
