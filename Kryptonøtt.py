@@ -1,4 +1,5 @@
 # TODO clean code up and edit it so it's easier to read
+# Keywords gathered from http://www.mieliestronk.com/wordlist.html
 
 import operator
 import itertools
@@ -36,7 +37,6 @@ def vigenere_encryption(msg, key, operator):
         # Appends this to the final encoded word
         encoded_word += alphabet[encoded]
     return encoded_word
-
 
 def decodeWithKnownMessage(secret_msg, max_key_len):
     '''
@@ -195,7 +195,4 @@ secret = vigenere_encryption("Husk løpetur klokka 20:00", "hei", "encode")
 #decodeUnknownKey(secret, 3, 2, "løpetur")
 #console_input()
 
-#Keywords gathered from http://www.mieliestronk.com/wordlist.html
-
-
-decodeKnownKeyLength("v64XFMX5+A", 3, 2, "på")
+decode_using_dict(str(vigenere_encryption("håndball967","cake" ,"encode")), 0, "håndball")
